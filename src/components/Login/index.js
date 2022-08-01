@@ -1,20 +1,50 @@
 import React from "react";
 import { Row, Col, Typography, Button } from "antd";
-import { FacebookAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase/config";
+import {
+  FacebookAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
+import { auth, db } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
+import { addDocument } from "../firebase/services";
 const { Title } = Typography;
 const fbProvider = new FacebookAuthProvider();
 
 export default function Login() {
-    const navigate = useNavigate();
-    const handleFbLogin = async () => {
-        const result = await signInWithPopup(auth, fbProvider);
-        const user = result.user;
-        if (user) {
-          navigate("/");
-        }
-      };
+  const navigate = useNavigate();
+  const handleFbLogin = async () => {
+    const { user, operationType, providerId } = await signInWithPopup(
+            auth,
+            fbProvider
+    );
+    if(user){
+      navigate('/');
+      return
+    }else{
+      navigate('/login')
+    }
+    // onAuthStateChanged(auth, async (user) => {
+    //   if (user) {
+    //     navigate("/");
+    //     return;
+    //   } else {
+    //     const { user, operationType, providerId } = await signInWithPopup(
+    //       auth,
+    //       fbProvider
+    //     );
+    //     addDocument("users", {
+    //       displayName: user.displayName,
+    //       email: user.email,
+    //       photoURL: user.photoURL,
+    //       phone: user.phoneNumber,
+    //       uid: user.displayName,
+    //       providerId: user.providerId,
+    //     });
+    //   }
+    // });
+  };
   return (
     <div>
       <Row justify="center" style={{ height: 800 }}>

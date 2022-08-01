@@ -23,5 +23,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
-
-export { getFirestore, getAuth, auth };
+const db = getFirestore(app);
+export { db, getAuth, auth };

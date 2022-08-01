@@ -10,10 +10,13 @@ export default function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
+  
   useEffect(() => {
+    
     const unsubcribe = auth.onAuthStateChanged((user) => {
+      console.log(user)
+      
       if (user) {
-        console.log(user)
         const { displayName, email, uid, photoURL } = user;
         setUser({
           displayName,
@@ -22,10 +25,12 @@ export default function AuthProvider({ children }) {
           photoURL,
         });
         setIsLoading(false);
-        navigate("/",{replace:true});
-        
+        navigate("/");
+        return;
       }else{
+        setIsLoading(false)
         navigate("/login");
+       
       }
       
     });
