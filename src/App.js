@@ -7,7 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
+        <Routes >
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<ChatRoom />} />
         </Routes>

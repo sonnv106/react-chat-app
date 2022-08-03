@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Avatar, Button, Typography } from "antd";
 import styled from "styled-components";
 import {auth} from '../firebase/config'
+import { collection } from "firebase/firestore";
 const WrapperStyled = styled.div`
   display: flex;
   justify-content: space-between;
@@ -13,6 +14,9 @@ const WrapperStyled = styled.div`
   }
 `;
 export default function UserInfo() {
+  useEffect(()=>{
+    const docRef = collection('users')
+  },[])
   return (
     <WrapperStyled>
       <div>
