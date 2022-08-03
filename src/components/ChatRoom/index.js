@@ -3,7 +3,7 @@ import React from "react";
 import ChatWindow from './ChatWindow';
 import SideBar from './Sidebar'
 export default function ChatRoom (){
-    console.log('chat room')
+   
     return(
         <div>
             <Row>

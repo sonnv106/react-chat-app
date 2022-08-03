@@ -32,7 +32,8 @@ const ButtonGroupStyled = styled.div`
   align-items: center;
 `
 const MessageListStyled = styled.div`
-  
+  max-height: 100%;
+  overflow-y: auto;
 `
 const WrapperStyled = styled.div`
   height: 100vh;
