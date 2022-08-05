@@ -3,8 +3,9 @@ import { Row, Col, Typography, Button } from "antd";
 import {
   FacebookAuthProvider,
   signInWithPopup,
-  getAdditionalUserInfo
+  getAdditionalUserInfo,
 } from "firebase/auth";
+import {Timestamp} from 'firebase/firestore'
 import { auth } from "../firebase/config";
 import { addDocument } from "../firebase/services";
 const { Title } = Typography;
@@ -26,7 +27,8 @@ export default function Login() {
         phone: user.user.phoneNumber,
         photoURL: user.user.photoURL,
         uid: user.user.uid,
-        providerId: user.user.providerId
+        providerId: user.user.providerId, 
+        createdAt: Timestamp.now()
       })
     }
   };

@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Avatar, Button, Typography } from "antd";
 import styled from "styled-components";
-import {auth} from '../firebase/config'
-import { collection } from "firebase/firestore";
+import { auth, db } from "../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
+import { AuthContext } from "../../Context/AuthProvider";
 const WrapperStyled = styled.div`
   display: flex;
   justify-content: space-between;
@@ -10,20 +11,34 @@ const WrapperStyled = styled.div`
   border-bottom: 1px solid rgba(82, 38, 83);
   .username {
     margin-left: 5px;
-    color: white
+    color: white;
   }
 `;
 export default function UserInfo() {
-  useEffect(()=>{
-    const docRef = collection('users')
-  },[])
+  // useEffect(() => {
+  //   const callApi = async () => {
+  //     const colRef =  collection(db, "users");
+  //     const querySnapshot = await getDocs(colRef);
+  //     querySnapshot.forEach((doc) => {
+  //       console.log( "=>", doc.data());
+  //     });
+      
+  //   };
+  //   callApi()
+  // }, []);
+  const {user:{
+    displayName,
+    photoURL
+  }} = useContext(AuthContext);
   return (
     <WrapperStyled>
       <div>
-        <Avatar>A</Avatar>
-        <Typography.Text className="username">ABC</Typography.Text>
+        <Avatar src={photoURL}>{photoURL? '' : displayName?.charAt(0)?.toUpperCase()}</Avatar>
+        <Typography.Text className="username">{displayName}</Typography.Text>
       </div>
-      <Button ghost onClick={()=>auth.signOut()}>Đăng xuất</Button>
+      <Button ghost onClick={() => auth.signOut()}>
+        Đăng xuất
+      </Button>
     </WrapperStyled>
   );
 }
