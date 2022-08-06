@@ -1,7 +1,8 @@
 import { UserAddOutlined } from "@ant-design/icons";
 import { Avatar, Button, Form, Input, Tooltip } from "antd";
-import React from "react";
+import React, { useContext, useMemo } from "react";
 import styled from "styled-components";
+import  { AppContext } from "../../Context/AppProvider";
 import Message from "./Message";
 
 const HeaderStyled = styled.div`
@@ -58,12 +59,17 @@ const FormStyled = styled(Form)`
   }
 `
 export default function ChatWindow() {
+  const {rooms, selectedRoomId} = useContext(AppContext)
+  const selectedRoom = useMemo(()=>
+    rooms.find(room=> room.id === selectedRoomId
+  ),[rooms, selectedRoomId])
+  console.log(rooms,selectedRoom)
   return (
     <WrapperStyled>
       <HeaderStyled>
         <div className="header__info">
-          <p className="header__title">Room 1</p>
-          <span className="header__description">Day la room 1</span>
+          <p className="header__title">{selectedRoom && selectedRoom.name}</p>
+          <span className="header__description">{selectedRoom && selectedRoom.description}</span>
         </div>
         <ButtonGroupStyled>
           <Button icon={<UserAddOutlined />} type = 'text'>Mời</Button>
