@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import {
   collection,
-  getDocs,
   orderBy,
   query,
   where,
-  onSnapshot
+  onSnapshot,
 } from "firebase/firestore";
 import { db } from "../components/firebase/config";
 export const useFirestore = (collectionName, condition) => {
   const [documents, setDocuments] = useState([]);
-
-  const fetData = async () => {
+  useEffect(() => {
     let q;
     let colRef = collection(db, collectionName);
     if (condition) {
@@ -23,19 +21,18 @@ export const useFirestore = (collectionName, condition) => {
         orderBy("createdAt", 'asc'),
         where(condition.fieldName, condition.operator, condition.compareValue)
       );
-      const querySnapshot = await getDocs(q);
-      let rooms = []
-      querySnapshot.forEach((doc) => {
-        rooms.push({id: doc.id, ...doc.data()})
-      });
-      setDocuments(rooms)
+      const unsubcribe = onSnapshot(q, (querySnapshot)=>{
+        let rooms = [];
+        querySnapshot.forEach((doc)=>{
+          rooms.push({id: doc.id, ...doc.data()})
+        })
+        setDocuments(rooms)
+      })
+      return () => {
+        unsubcribe()
+      };
     }
-  };
-  useEffect(() => {
-    fetData();
-    return () => {
-      fetData();
-    };
-  }, [collection, condition]);
+   
+  }, [collectionName, condition]);
   return documents;
 };

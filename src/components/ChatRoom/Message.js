@@ -28,7 +28,7 @@ const formatDate = (seconds)=>{
 }
 
 export default function Message({text, displayName, createAt, photoURL}){
-    console.log('createAt', createAt)
+   
     return(
         <WrapperStyled>
             <div>
