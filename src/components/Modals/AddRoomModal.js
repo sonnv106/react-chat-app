@@ -13,7 +13,6 @@ export default function AddRoomModal() {
 
   const handleOK = () => {
     //add new room to firestore
-    console.log( form.getFieldValue())
     addDocument('rooms', {...form.getFieldValue(), members: [uid]})
 
     //reset form value

@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import {Timestamp} from 'firebase/firestore'
 import { auth } from "../firebase/config";
-import { addDocument } from "../firebase/services";
+import { addDocument, generateKeywords } from "../firebase/services";
 const { Title } = Typography;
 const fbProvider = new FacebookAuthProvider();
 
@@ -28,7 +28,8 @@ export default function Login() {
         photoURL: user.user.photoURL,
         uid: user.user.uid,
         providerId: user.user.providerId, 
-        createdAt: Timestamp.now()
+        createdAt: Timestamp.now(),
+        keywords: generateKeywords(user.user.displayName)
       })
     }
   };
